@@ -11,8 +11,6 @@ fig_scatter_1 = px.scatter(df, x= 'price', y='days_listed',color='condition', ti
 #create a histogram that counts the amount of listings for each car model in the lot.
 fig_hist_1 = px.histogram(df,x='model', nbins=20, height=600, width=900, title='Number of Cars in Lot per Model')
 
-#create header that states the title for the project
-st.header('Car Data Analysis')
 #Display the dataframe on the application and create header.
 st.header('US Vehicles Dataframe')
 st.dataframe(df)
