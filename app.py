@@ -27,4 +27,3 @@ st.header('Would you like to give our company a call?')
 check = st.checkbox("Yes, I would like the company phone number!")
 if check == True:
     st.write("Please call 1-800-4443 (This is not a real number)")
-print("hello world")
