@@ -28,3 +28,6 @@ Instructions on how to run the app
 Type in the following command in the terminal:
 
 streamlit run app.py
+
+Render URL:
+https://sprint-4-project-7bdr.onrender.com/

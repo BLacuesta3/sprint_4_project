@@ -2,9 +2,17 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
-#upload dataframe and fill in missing values with 'unknown'
+import random
+#upload dataframe 
 df = pd.read_csv('vehicles_us.csv')
-df.fillna('unknown', inplace=True)
+#fill in the missing values
+df['cylinders'] = df[['cylinders', 'type']].groupby('type').transform(lambda x:x.fillna(x.median()))
+df['odometer'] = df.groupby('type')['odometer'].transform(lambda x: x.fillna(x.mean()))
+df['model_year'] = df.groupby('model')['model_year'].transform(lambda x: x.fillna(x.mode().iloc[0]))
+paint_color_list = df[~df['paint_color'].isna()]['paint_color'].to_list()
+df['paint_color'] = df['paint_color'].fillna(random.choice(paint_color_list))
+is_4wd_list = df[~df['is_4wd'].isna()]['is_4wd']
+df['is_4wd'] = df['is_4wd'].fillna(random.choice(is_4wd_list))
 
 #create a scatterplot that displays the how the the price of each car affects how long the car is listed for.  Add animation frame that displays the type and model of each car.
 fig_scatter_1 = px.scatter(df, x= 'price', y='days_listed',color='condition', title="Relationship Between Car Price/ Car Quality and Days Listed", labels={'price': 'Car Price', 'days_listed': 'Number of Days Listed'},animation_frame='type', animation_group='model')
@@ -13,6 +21,7 @@ st.header('Project Title: Car Data Analysis')
 #Display the dataframe on the application and create header.
 st.header('US Vehicles Dataframe')
 st.dataframe(df)
+
 
 #Display the previously mentioned scatterplot on the application and add a header.
 st.header('Car Price/Quality Analysis')
