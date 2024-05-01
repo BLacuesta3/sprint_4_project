@@ -5,13 +5,14 @@ import plotly.express as px
 import random
 #upload dataframe 
 df = pd.read_csv('vehicles_us.csv')
+
 #fill in the missing values
 df['cylinders'] = df[['cylinders', 'type']].groupby('type').transform(lambda x:x.fillna(x.median()))
 df['odometer'] = df.groupby('type')['odometer'].transform(lambda x: x.fillna(x.mean()))
 df['model_year'] = df.groupby('model')['model_year'].transform(lambda x: x.fillna(x.mode().iloc[0]))
 paint_color_list = df[~df['paint_color'].isna()]['paint_color'].to_list()
 df['paint_color'] = df['paint_color'].fillna(random.choice(paint_color_list))
-is_4wd_list = df[~df['is_4wd'].isna()]['is_4wd']
+is_4wd_list = df[~df['is_4wd'].isna()]['is_4wd'].to_list()
 df['is_4wd'] = df['is_4wd'].fillna(random.choice(is_4wd_list))
 
 #create a scatterplot that displays the how the the price of each car affects how long the car is listed for.  Add animation frame that displays the type and model of each car.
